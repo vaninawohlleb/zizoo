@@ -100,6 +100,8 @@ class CardList extends Component {
 		}
 	}
 
+
+	// arrow function, so we dont need bind
 	handleChange = (e) => {
 		this.setState({
 			selectedFilters: e.target.name === 'age' ? {age: e.target.value, length: this.state.selectedFilters.length} : 
@@ -119,28 +121,29 @@ class CardList extends Component {
           if (loading) return <div>Fetching</div>
           if (error) return <div>Error</div>
 					
-					return (
-						<CardPage>
-							<Filters>
-								<FilterText><h1>Filter Active Boats</h1></FilterText>
-								<FilterButtons className='age-filters'>
-									<label htmlFor='ageFilter'>Old</label>
-									<input type='radio' name='age' value='old' onChange={this.handleChange}/>
-									<label htmlFor='ageFilter'>New</label>
-									<input type='radio' name='age' value='fresh' onChange={this.handleChange}/>
-								</FilterButtons>
-								<FilterButtons className='length-filters'>
-									<label htmlFor='lengthFilter'>Short</label>
-									<input type='radio' name='length' value='short' onChange={this.handleChange}/>
-									<label htmlFor='lengthFilter'>Long</label>
-									<input type='radio' name='length' value='long' onChange={this.handleChange}/>
-								</FilterButtons>
-							</Filters>
-								<CardGrid items={data.getBoats} filters={this.state.selectedFilters} />
-						</CardPage>
-					)
-				}}	
-			</Query>
+			return (
+				<CardPage>
+					<Filters>
+						<FilterText><h1>Filter Active Boats</h1></FilterText>
+						<FilterButtons className='age-filters' onChange={this.handleChange}>
+							<label htmlFor='ageFilter'>Old</label>
+							<input type='radio' name='age' value='old' />
+							<label htmlFor='ageFilter'>New</label>
+							<input type='radio' name='age' value='fresh'/>
+						</FilterButtons>
+						<FilterButtons className='length-filters' onChange={this.handleChange}>
+							<label htmlFor='lengthFilter'>Short</label>
+							<input type='radio' name='length' value='short'/>
+							<label htmlFor='lengthFilter'>Long</label>
+							<input type='radio' name='length' value='long'/>
+						</FilterButtons>
+					</Filters>
+					{/* pass in the function that calculates the filter upstairs */}
+						<CardGrid items={data.getBoats} filters={this.state.selectedFilters} />
+				</CardPage>
+				)
+			}}	
+		</Query>
 		)
 	}
 }
